@@ -1,0 +1,246 @@
+header{
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background-color: var(--white);
+}
+nav{
+    margin: auto;
+    height: var(--nav-h);
+    width: 100%;
+    max-width: var(--max-width);
+    position: relative;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    gap: var(--padding);
+    padding: 0px var(--padding);
+}
+
+nav .links{
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+    height: 100%;
+}
+
+nav .links a{
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    padding: var(--padding);
+    transition: all var(--speed) ease;
+    font-style: normal;
+    font-weight: 500;
+}
+
+nav .links a.active{
+    color: var(--primary);
+}
+
+nav .links a::after{
+    content: '';
+    position: absolute;
+    height: 3px;
+    width: 0%;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    transition: all var(--speed) ease;
+    background-color: var(--primary);
+}
+
+nav .links a.active::after{
+    width: 100%;
+}
+
+nav .currency-button{
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    font-style: normal;
+    font-weight: 500;
+}
+
+.currency-button img{
+    transition: all var(--speed) ease;
+    height: 5px;
+    rotate: 180deg;
+}
+
+.currency-button.active img{
+    rotate: 0deg;
+}
+
+nav .cart-button{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    position: relative;
+}
+
+
+nav .cart-button span{
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    height: 20px;
+    min-width: 20px;
+    border-radius: 20px;
+    padding: 0px 5px;
+    background-color: var(--black);
+    color: var(--white);
+    display: grid;
+    place-items: center;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.backdrop{
+    height: calc( 100vh - var(--nav-h));
+    background-color: #3937483b;
+    width: 100%;
+    max-width: 100%;
+    margin: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    position: fixed;
+    z-index: 2;
+    top: var(--nav-h);
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: all var(--speed) ease;
+}
+.backdrop.active{
+    opacity: 1;
+    pointer-events: fill;
+}
+
+.modal{
+    width: 100%;
+    max-width: var(--max-width);
+    height: calc( 100vh - var(--nav-h));
+    margin: auto;
+    position: fixed;
+    top: var(--nav-h);
+    left: 50%;
+    z-index: 4;
+    transform: translateX(-50%);
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.mini-cart, .currency-container{
+    position: absolute;
+    right: 0;
+    top: -50px;
+    padding: var(--padding);
+    width: 100%;
+    max-width: 325px;
+    background: var(--white);
+    transition: all var(--speed) ease;
+    opacity: 0;
+    pointer-events: none;
+    transition: all var(--speed) ease;
+    overflow-y: auto;
+    max-height: calc( 100vh - var(--nav-h));
+}
+
+.modal.active .mini-cart, .modal.active .currency-container{
+    opacity: 1;
+    pointer-events: fill;
+    top: 0px;
+}
+
+.currency-container{
+    width: 114px !important;
+    padding: 0px !important;
+    gap: 0px !important;
+}
+
+.currency-container .currency{
+    display: grid;
+    grid-template-columns: 30px auto;
+    transition: var(--speed) ease;
+    height: 45px;
+    padding: 0px var(--padding);
+    cursor: pointer;
+}
+
+.currency:hover{
+    color: var(--primary);
+}
+
+.currency.active{
+    background-color: #EEEEEE;
+}
+
+.currency-container .currency p{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 45px;
+}
+
+nav .menu{
+    display: none;
+}
+
+.menu .menu-button{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 25px;
+    width: 30px;
+    padding: 5px;
+    cursor: pointer;
+}
+.menu-button span{
+    pointer-events: none;
+    height: 3px;
+    width: 100%;
+    background: var(--black);
+}
+
+@media screen and ( max-width: 600px) {
+    nav .links{
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-transform: uppercase;
+        min-height: 100%;
+        height: max-content;
+        width: 100%;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        opacity: 1;
+        pointer-events: fill;
+        background-color: var(--white);
+        padding: var(--padding);
+        box-shadow: 0px  10px 10px #0000002c;
+        transition: all 150ms ease;
+        z-index: 12;
+    }
+    nav .links.hide{
+        top: 50%;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    nav .menu{
+        flex-grow: 1;
+        display: grid;
+    }
+}
