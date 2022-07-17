@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import cart from './../Assets/EmptyCart-black.svg';
 import chevron from './../Assets/Chevron.svg';
+import logo from './../Assets/a-logo.png';
 import { gql, useQuery } from '@apollo/client';
 import { Link } from 'react-router-dom';
 import { CartContext } from './../context/Cart/CartContext';
@@ -34,14 +35,13 @@ class Navbar extends Component {
     })
     currencyToggle(false);
     cartToggle(false);
+    this.menuToggle(false)
   }
-  menuToggle(){
-    const { cartToggle, currencyToggle } = this.context;
+  menuToggle(stat){
+    const { cartToggle, currencyToggle, showCart, showCurrency } = this.context;
     this.setState({
-      showLinks: !this.state.showLinks,
+      showLinks: stat,
     })
-    cartToggle(false);
-    currencyToggle(false);
   }
   render() {
     const { data } = this.props.server;
@@ -56,13 +56,6 @@ class Navbar extends Component {
       <Fragment>
         <header>
           <nav>
-            <div className='menu'>
-              <div className='menu-button' onClick={()=> this.menuToggle()}>
-                <span/>
-                <span/>
-                <span/>
-              </div>
-            </div>
             <div className={this.state.showLinks ? 'links' : 'links hide'}>
                 {data && data.categories.map( (link, index) => 
                     <Link 
@@ -77,26 +70,44 @@ class Navbar extends Component {
                     </Link>)
                 }
             </div>
-            <div 
-              className={showCurrency ? 'currency-button active' : 'currency-button'}
-              onClick={()=> {
-                  currencyToggle(!showCurrency);
-                  cartToggle(false);
-                }
-              }
-            >
-              { currency && currency.symbol }
-              <img src={chevron} loading='lazy' alt='arrow'/>
+            <div className='logo flex alignCenter justifyCenter'>
+              <Link to={'/'}><img src={logo} alt={'logo'} /></Link>
             </div>
-            <div 
-              className='cart-button'
-              onClick={() => {
-                cartToggle(!showCart);
-                currencyToggle(false);
-              }}
-            >
-              <img src={cart} loading='lazy' alt='cart'/>
-              <span>{quantity}</span>
+            <div className='menu flex alignCenter'>
+              <div className='menu-button' onClick={()=> {
+                  this.menuToggle(!this.state.showLinks)
+                  cartToggle(false);
+                  currencyToggle(false);
+                }}>
+                <span/>
+                <span/>
+                <span/>
+              </div>
+            </div>
+            <div className='flex gap alignCenter justifyRight'>
+              <div 
+                className={showCurrency ? 'currency-button active' : 'currency-button'}
+                onClick={()=> {
+                    currencyToggle(!showCurrency);
+                    cartToggle(false);
+                    this.menuToggle(false);
+                  }
+                }
+              >
+                { currency && currency.symbol }
+                <img src={chevron} loading='lazy' alt='arrow'/>
+              </div>
+              <div 
+                className='cart-button'
+                onClick={() => {
+                  cartToggle(!showCart);
+                  currencyToggle(false);
+                  this.menuToggle(false);
+                }}
+              >
+                <img src={cart} loading='lazy' alt='cart'/>
+                <span>{quantity}</span>
+              </div>
             </div>
           </nav>        
         </header>
@@ -107,11 +118,11 @@ class Navbar extends Component {
           <MiniCart />
         </div>
         <div 
-          className={showCart || showCurrency || this.state.showLinks ? 'backdrop active': 'backdrop'} 
+          className={showCart || showCurrency  ? 'backdrop active': 'backdrop'} 
           onClick={() => {
               cartToggle(false);
               currencyToggle(false);
-              this.handleCurrency(false);
+              this.menuToggle(false);
             }
           }
         /> 

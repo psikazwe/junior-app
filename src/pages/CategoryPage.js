@@ -54,7 +54,7 @@ class CategoryPage extends PureComponent {
     const { addItem } = this.context;
     return (
       <div className='page'>
-        { data && <div> 
+        { data && data.category && <div> 
             <h1 className='page-title'>{data.category.name}</h1>
             <div className='products'>
               {
@@ -68,6 +68,12 @@ class CategoryPage extends PureComponent {
               }
             </div>
           </div>
+        }
+        { 
+            data && !data.category && 
+            <div className='centered-page'>
+                <h4>Category not found</h4>
+            </div>
         }
       </div>
     )

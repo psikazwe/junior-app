@@ -11,8 +11,8 @@ nav{
     max-width: var(--max-width);
     position: relative;
     z-index: 6;
-    display: flex;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--padding);
     padding: 0px var(--padding);
 }
@@ -212,6 +212,10 @@ nav .menu{
 }
 
 @media screen and ( max-width: 600px) {
+    nav{
+        display: grid;
+        grid-template-columns: 30px 30px 1fr;
+    }
     nav .links{
         flex-grow: 1;
         display: flex;
@@ -238,7 +242,6 @@ nav .menu{
         opacity: 0;
         pointer-events: none;
     }
-
     nav .menu{
         flex-grow: 1;
         display: grid;

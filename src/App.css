@@ -12,7 +12,11 @@
   font-weight: 700;
   font-size: 32px;
 }
-
+.centered-page{
+  height: calc(100vh - (var(--nav-h) * 2));
+  display: grid;
+  place-content: center;
+}
 .products{
   display: grid;
   grid-template-columns: repeat(3, 1fr);

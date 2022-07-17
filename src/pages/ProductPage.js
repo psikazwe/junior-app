@@ -36,13 +36,13 @@ const getProduct = gql `
 const Hook = (Component) =>{
     return function WrappedComponent(props){
         const {id} = useParams();
-        const { data } = useQuery(
+        const { data , loading} = useQuery(
             getProduct, 
             { 
                 variables : { id :id || 'all'}
             }
         );
-        return <Component {...props} server={{ data}}/>;
+        return <Component {...props} server={{ data, loading}}/>;
     }
 }
 class ProductPage extends PureComponent {
@@ -107,31 +107,33 @@ class ProductPage extends PureComponent {
         //set initial attributes
         let attributes = {}
         if(nextProps.server.data && Object.keys(state.attributes).length === 0){ 
-            nextProps.server.data.product.attributes.forEach(
-                attr => {
-                    let category = attr.id.replace(/ /g,"");
-                    let newAttribute = {
-                        [category] : attr.items[0].id
+            if(nextProps.server.data.product){
+                nextProps.server.data.product.attributes.forEach(
+                    attr => {
+                        let category = attr.id.replace(/ /g,"");
+                        let newAttribute = {
+                            [category] : attr.items[0].id
+                        }
+                        attributes = Object.assign(newAttribute, attributes);
                     }
-                    attributes = Object.assign(newAttribute, attributes);
-                }
-            ); 
-            return{
-                attributes
-            }        
+                ); 
+                return{
+                    attributes
+                }        
+            }
         }
         return null;
     }
     render() {
-        const { data} = this.props.server;
+        const { data, loading} = this.props.server;
         const { priceFilter } = this.context;
         let price;
-        if(data){
+        if(data && data.product){
             price = priceFilter(data.product.prices);
         }
         return (
             <div className='page'>
-                { data &&
+                { data && data.product &&
                     <div className={data.product.inStock ? 'product-grid' : 'product-grid out'}>
                         <div className='product-gallery'>
                             { 
@@ -142,7 +144,7 @@ class ProductPage extends PureComponent {
                                         loading='lazy'
                                         onClick={() => this.imageToggle(index)}
                                         className={ this.state.imageIndex === index ? 'active' : ''}
-                                        alt={'image'}
+                                        alt={'image-'+index}
                                     />
                                 ) 
                             }
@@ -183,6 +185,18 @@ class ProductPage extends PureComponent {
                                 {ReactHtmlParser(data.product.description)}
                             </div>
                         </div>
+                    </div>
+                }
+                { 
+                    loading && 
+                    <div className='centered-page'>
+                        <h4>Fetching...</h4>
+                    </div>
+                }
+                { 
+                    data && !data.product && 
+                    <div className='centered-page'>
+                        <h4>Product not found</h4>
                     </div>
                 }
             </div>

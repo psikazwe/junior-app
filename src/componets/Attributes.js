@@ -1,4 +1,10 @@
 import React, { PureComponent } from 'react';
+import styled from 'styled-components';
+const StyledColorBox =styled.div`
+  background: ${props => props.boxColor};
+  height: 100%;
+  width: 100%;
+`;
 class Attributes extends PureComponent{
     render(){
       if(this.props.attributes.name === 'Color'){
@@ -8,19 +14,19 @@ class Attributes extends PureComponent{
             <div className='attributes'>
                 {
                     this.props.attributes.items.map( (art, key) => 
-                        <button 
-                          style={{background: art.value}}
-                          key={key} 
-                          className={
-                              this.props.isSet(this.props.attributes.id, art.id) ? 
-                                'attribute-button color active '+art.value 
-                              : 
-                                'attribute-button color'
-                          }  
-                          data-bg={art.value} 
-                          onClick={
-                              () => this.props.setAttribute(this.props.attributes.id,art.id)}
-                        />
+                          <button 
+                            key={key} 
+                            className={
+                                this.props.isSet(this.props.attributes.id, art.id) ? 
+                                  'attribute-button color active '+art.value 
+                                : 
+                                  'attribute-button color'
+                            }  
+                            onClick={() => this.props.setAttribute(this.props.attributes.id,art.id)}
+                          > 
+                            <StyledColorBox boxColor={art.value}/>
+                          </button>             
+
                     )
                 }
             </div>

@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { Link } from 'react-router-dom';
 import CartItem from '../componets/CartItem';
 import { CartContext } from '../context/Cart/CartContext';
 
@@ -44,7 +45,7 @@ export default class Cart extends PureComponent {
                     <h4>{ currency && currency.symbol } { Total.toFixed(2) }</h4>
                 </div>
                 <div className='row'>
-                    <button className='button primary'>order</button>
+                    <Link to={'/checkout'}><button className='button primary'>order</button></Link>
                 </div>
                 
             </div>

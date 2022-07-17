@@ -45,6 +45,15 @@ a:hover{
 .spacer{
   justify-content: space-between;
 }
+.alignCenter{
+  align-items: center;
+}
+.justifyCenter{
+  justify-content: center;
+}
+.justifyRight{
+  justify-content: flex-end;
+}
 
 .button{
   cursor: pointer;
