@@ -1,5 +1,6 @@
 {
   "name": "scandiweb-junior-app",
+  "author": "Phillip Sikazwe",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
